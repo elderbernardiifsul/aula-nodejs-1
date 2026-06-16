@@ -77,10 +77,10 @@ const vinteseis = `Just thinking of you`;
 const vintesete = `I know I've loved you from the start`;
 
 FromTheStart.addParte(
-    new Parte(um, 7000, '1')
+    new Parte(um, 8500, '1')
 );
 FromTheStart.addParte(
-    new Parte(dois, 8000, '2')
+    new Parte(dois, 6400, '2')
 );
 FromTheStart.addParte(
     new Parte(tres, 3000, '3')

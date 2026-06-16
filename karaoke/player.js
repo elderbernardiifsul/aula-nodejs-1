@@ -18,14 +18,14 @@ const youKnow = 'You know my hero \nThe one thats on';
 
 //começa a adicionar as partes da música, com letra, tempo e tag1
 myHero.addParte(
-    new Parte(tooAlarmin, 11000, 'verso1')
+    new Parte(tooAlarmin, 4000, 'verso1')
 );
 myHero.addParte(
-    new Parte(truthOrCon, 10000, 'verso2')
+    new Parte(truthOrCon, 4000, 'verso2')
 );
 
 //segue adicionando as partes
-
+myHero.addParte(new Parte( thereGoes, 5000, 'verso3') );
 
 async function play() {
     try {

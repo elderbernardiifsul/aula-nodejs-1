@@ -9,6 +9,7 @@ function soma(a,b){
 }
 
 function sub(a,b){
+    exibirResultado(a-b);
     return a-b;
 }
 

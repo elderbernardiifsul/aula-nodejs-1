@@ -77,7 +77,7 @@ const vinteseis = `Just thinking of you`;
 const vintesete = `I know I've loved you from the start`;
 
 FromTheStart.addParte(
-    new Parte(um, 7000, '1')
+    new Parte(um, 8000, '1')
 );
 FromTheStart.addParte(
     new Parte(dois, 8000, '2')

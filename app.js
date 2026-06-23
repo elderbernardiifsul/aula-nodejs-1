@@ -36,6 +36,55 @@ app.post('/testePost', (req,res) => {
  * 
  */
 
+// * GET /musica/:id -> retornar a musica inteira
+app.get('/musica/:id', (req,res)=>{
+    const id = req.params.id;
+    if(id != 0){
+        res.status(404);
+        //res.statusCode = 404;
+        res.send('Musica não encontrada.');
+    }
+
+    const musicaJSON = JSON.stringify(musica); //transformar objeto js em string json
+    
+    res.contentType('application/json');
+    res.send(musicaJSON);
+});
+
+// * GET /musica:id/parte/:parte -> retornar parte da musica
+app.get('/musica/:id/parte/:parte',(req,res) =>{
+    const id = req.params.id;
+    const parte = req.params.parte;
+    
+    if(id != 0){
+        res.status(404);
+        res.send('Musica não encontrada.');
+    }
+
+    const parteParaRetornar = musica.partes[parte];
+    res.contentType('application/json');
+    res.send(JSON.stringify(parteParaRetornar));
+
+});
+
+// GET /mussica/:id/nome
+app.get('/musica/:id/titulo', (req,res)=>{
+    const id = req.params.id;
+    if(id != 0){
+        res.status(404);
+        res.send('Musica não encontrada.');
+    }
+   res.send({titulo: musica.nome });
+
+});
+
+app.get('/player/:id/play',(req,res)=>{
+    play();
+    res.send("Música reproduziu no servidor!");
+});
+
+
+
 
 
 

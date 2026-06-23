@@ -1,11 +1,11 @@
 # Atividade: Karaokê no Terminal — Node.js
 
-**Disciplina:** Programação III  
-**Curso:** Ensino Médio Integrado — Técnico em Informática  
-**Unidade:** 2 — Programação de Back-end  
-**Professor:** Elder Francisco Fontana Bernardi  
-**Modalidade:** Dupla  
-**Valor:** 2 pontos  
+**Disciplina:** Programação III
+**Curso:** Ensino Médio Integrado — Técnico em Informática
+**Unidade:** 2 — Programação de Back-end
+**Professor:** Elder Francisco Fontana Bernardi
+**Modalidade:** Dupla
+**Valor:** 2
 **Prazo:** 17/06
 
 ## Contexto
@@ -133,6 +133,7 @@ await sleep(500);    // espera meio segundo (500 ms)
 #### `player.js` — O que já existe
 
 O player já tem:
+
 - Os imports de `Musica`, `Parte` e `sleep`
 - O objeto `myHero` criado
 - Variáveis com trechos da letra já declarados
@@ -202,47 +203,7 @@ console.log();  // pula linha no final da parte
 
 > `process.stdout.write()` imprime sem quebrar linha, diferente de `console.log()`.
 
-#### e) Sincronizar com a música real
-
-O karaokê deve funcionar **junto com a música de verdade** tocando no YouTube (ou Spotify, etc.). Para isso, adicione um **timer de espera** no início da função `play()`, antes da letra começar. Esse tempo serve para você dar play na música e ela sincronizar com o terminal:
-
-```javascript
-async function play() {
-    console.log('\n  ♫  Abra a música no YouTube e prepare-se...\n');
-    console.log('  Pressione ENTER e dê play na música!');
-
-    // Espera 5 segundos para dar tempo de iniciar a música
-    for (let i = 5; i >= 1; i--) {
-        console.log('  ♪  ' + i + '...');
-        await sleep(1000);
-    }
-
-    console.log('  ♫  Tocando!\n');
-
-    // Agora começa a exibir a letra sincronizada
-    // ...
-}
-```
-
-Ajuste os valores de `tempoEspera` de cada parte até que a letra no terminal acompanhe a música que está tocando. Teste várias vezes.
-
-#### Caracteres musicais no código
-
-Para deixar a saída com visual de karaokê, use estes caracteres Unicode diretamente no código JavaScript:
-
-```javascript
-// Copie e cole direto no código — funciona no terminal
-console.log('♫');   // notas duplas
-console.log('♪');   // nota simples
-console.log('♬');   // par de semicolcheias
-console.log('🎵');  // emoji nota musical
-console.log('🎶');  // emoji notas musicais
-console.log('🎤');  // emoji microfone
-```
-
-> No Windows, se algum caractere não aparecer, use o atalho `Win + .` para abrir o painel de emojis e inserir direto no código.
-
-### 5. Testar com a música
+### 5. Executar
 
 Na raiz do projeto, rode:
 
@@ -250,18 +211,12 @@ Na raiz do projeto, rode:
 npm start
 ```
 
-O programa vai mostrar uma contagem regressiva — use esse tempo para **abrir a música "My Hero" no YouTube** e dar play. A letra no terminal deve acompanhar o áudio.
+Observe se:
 
-**Checklist de teste:**
-
-- [ ] A contagem regressiva dá tempo suficiente para iniciar a música
-- [ ] A letra aparece sincronizada com o áudio
-- [ ] Todas as partes aparecem na ordem correta da música
-- [ ] Existe pausa visível entre as partes
-- [ ] As cores do chalk estão aplicadas
-- [ ] A impressão proporcional funciona (se implementada)
-
-> Teste várias vezes e ajuste os tempos até ficar sincronizado. É normal precisar de vários ajustes.
+- Todas as partes aparecem na ordem correta
+- Existe pausa visível entre as partes
+- As cores do chalk estão aplicadas
+- A impressão proporcional funciona (se implementada)
 
 ### 6. Entregar
 
@@ -323,10 +278,12 @@ Crie um arquivo `respostas.md` na raiz do projeto:
 
 - Implemente uma **contagem regressiva** antes da música começar (3, 2, 1...).
 - Permita escolher a velocidade de reprodução via argumento de linha de comando:
+
   ```bash
   npm start -- 2        # velocidade 2x (metade do tempo)
   npm start -- 0.5      # velocidade 0.5x (dobro do tempo)
   ```
+
 - Crie um segundo arquivo `player2.js` com outra música usando as mesmas classes.
 
 ## Observação final

@@ -1,3 +1,8 @@
+// importacoes dos objetos locais
+const {musica, play} = require('./karaoke/player');
+
+console.log('Titulo da musica: ' + musica.nome);
+
 
 // 1. Importar o Express
 const express = require('express');
@@ -22,6 +27,16 @@ app.get('/teste', (req, res)=>{
 app.post('/testePost', (req,res) => {
 
 } );
+
+/**
+ * API da musica
+ * GET /musica/:id -> retornar a musica inteira
+ * GET /mussica/:id/nome
+ * GET /musica:id/:parte -> retornar parte da musica
+ * 
+ */
+
+
 
 
 // 5. Abrir a loja (escutar a porta)

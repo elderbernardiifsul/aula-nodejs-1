@@ -23,8 +23,8 @@ app.post('/testePost', (req,res) => {
 
 } );
 
-
 // 5. Abrir a loja (escutar a porta)
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });
+

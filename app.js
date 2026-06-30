@@ -1,4 +1,5 @@
 // importacoes dos objetos locais
+const { Parte } = require('./karaoke/parte');
 const {musica, play} = require('./karaoke/player');
 
 console.log('Titulo da musica: ' + musica.nome);
@@ -24,9 +25,6 @@ app.get('/teste', (req, res)=>{
     res.send(html);
 });
 
-app.post('/testePost', (req,res) => {
-
-} );
 
 /**
  * API da musica
@@ -83,8 +81,33 @@ app.get('/player/:id/play',(req,res)=>{
     res.send("Música reproduziu no servidor!");
 });
 
+/*pushs*/
+app.post('/musica/:id/parte', (req, res)=>{
+    console.log("entrou no push da parte.")
 
+    try{
+        let body= req.body;
+        const parte = new Parte(body.letra, body.tempoEspera, body.tag);
+        musica.addParte(parte);
 
+        res.status(201).send(JSON.stringify(parte));
+
+    }catch(error){
+        console.log("ERROR: POST parte: "+ error.message);
+        res.statusCode = 400; //status de erro no lado do cliente (msg)
+        res.send({error:"Mensagem invalida ou incompleta."});     
+    }
+});
+
+app.get("/musica/:id/play", async (req, res) =>{
+    
+    try{
+        play();//assíncrono, sem controle de sincronia
+        res.status(200).send({msg:`Musica ${musica.nome} está tocando!`});
+    }catch(error){
+
+    }
+});
 
 
 

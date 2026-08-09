@@ -1,138 +1,118 @@
-// importacoes dos objetos locais
-const { Parte } = require('./karaoke/parte');
-const {musica, play} = require('./karaoke/player');
+const express = require('express');
 
-//acesso ao DAO
-//Vai retornar instância única e não a Classe
 const musicaDAO = require('./karaoke/DAO/MusicaDAO');
 
-/* EXEMPLOS de uso do DAO
-
-//consultar e obter uma musica
-musicaDAO.inserir('Sinais de Fogo', 'Preta Gil' );
-const minhaMusica = musicaDAO.buscarPorId(0);
-musicaDAO.adicionarPartes(0, new Parte('Quando você me vê...', 1100, 'parte1'));
-musicaDAO.atualizar(0, 'Novo nome', 'novoArtista');
-const novaMusica = musicaDAO.inserir( 'Billie Jean', 'Michael Jackson' );
-musicaDAO.adicionarPartes( novaMusica.id, new Parte('Billie Jean is not my lover...',1500, 'estrofe1') );
-
-const todas = musicaDAO.listarTodas();
-todas.forEach(m => {
-   console.log(JSON.stringify(m));
-     
-});
-
-Ignorar trecho entre comentários */
-
-
-// 1. Importar o Express
-const express = require('express');
-const MusicaDAO = require('./karaoke/DAO/MusicaDAO');
-
-// 2. Criar a aplicação (a "loja")
 const app = express();
 
-// 3. Configurar middlewares (pré-processamento)
 app.use(express.json());
 
-// 4. Definir rotas (os "balcões de atendimento")
+// Rota inicial
 app.get('/', (req, res) => {
     res.send('Servidor funcionando');
 });
 
-app.get('/teste', (req, res)=>{
-    res.contentType('html');
-    const html = "<html> <body> <b>Este é o meu site Express.js. </body> <html> "
-    res.send(html);
-});
+// GET /api/musicas
+// Lista todas as músicas sem mostrar suas partes
+app.get('/api/musicas', (req, res) => {
+    const musicas = musicaDAO.listarTodas();
 
+    const resumo = [];
 
-/**
- * API da musica
- * GET /musica/:id -> retornar a musica inteira
- * GET /mussica/:id/nome
- * GET /musica:id/:parte -> retornar parte da musica
- * 
- */
+    for (let i = 0; i < musicas.length; i++) {
+        const m = musicas[i];
 
-// * GET /musica/:id -> retornar a musica inteira
-app.get('/musica/:id', (req,res)=>{
-    const id = req.params.id;
-    if(id != 0){
-        res.status(404);
-        //res.statusCode = 404;
-        res.send('Musica não encontrada.');
+        resumo.push({
+            id: m.id,
+            nome: m.nome,
+            artista: m.artista,
+            totalPartes: m.partes.length
+        });
     }
 
-    const musicaJSON = JSON.stringify(musica); //transformar objeto js em string json
-    
-    res.contentType('application/json');
-    res.send(musicaJSON);
+    res.status(200).json(resumo);
 });
 
-// * GET /musica:id/parte/:parte -> retornar parte da musica
-app.get('/musica/:id/parte/:parte',(req,res) =>{
-    const id = req.params.id;
-    const parte = req.params.parte;
-    
-    if(id != 0){
-        res.status(404);
-        res.send('Musica não encontrada.');
+// GET /api/musicas/:id
+// Busca uma música completa pelo ID
+app.get('/api/musicas/:id', (req, res) => {
+    const id = Number(req.params.id);
+
+    const musica = musicaDAO.buscarPorId(id);
+
+    if (!musica) {
+        return res.status(404).json({
+            erro: `Música com id ${id} não encontrada`
+        });
     }
 
-    const parteParaRetornar = musica.partes[parte];
-    res.contentType('application/json');
-    res.send(JSON.stringify(parteParaRetornar));
-
+    res.status(200).json(musica);
 });
 
-// GET /mussica/:id/nome
-app.get('/musica/:id/titulo', (req,res)=>{
-    const id = req.params.id;
-    if(id != 0){
-        res.status(404);
-        res.send('Musica não encontrada.');
+// POST /api/musicas
+// Cria uma nova música
+app.post('/api/musicas', (req, res) => {
+    const { nome, artista } = req.body;
+
+    if (!nome || !artista) {
+        return res.status(400).json({
+            erro: 'Campos obrigatórios: nome, artista'
+        });
     }
-   res.send({titulo: musica.nome });
 
+    const novaMusica = musicaDAO.inserir(nome, artista);
+
+    res.status(201).json(novaMusica);
 });
 
-app.get('/player/:id/play',(req,res)=>{
-    play();
-    res.send("Música reproduziu no servidor!");
-});
+// PUT /api/musicas/:id
+// Atualiza uma música existente
+app.put('/api/musicas/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const { nome, artista } = req.body;
 
-/*pushs*/
-app.post('/musica/:id/parte', (req, res)=>{
-    console.log("entrou no push da parte.")
-
-    try{
-        let body= req.body;
-        const parte = new Parte(body.letra, body.tempoEspera, body.tag);
-        musica.addParte(parte);
-
-        res.status(201).send(JSON.stringify(parte));
-
-    }catch(error){
-        console.log("ERROR: POST parte: "+ error.message);
-        res.statusCode = 400; //status de erro no lado do cliente (msg)
-        res.send({error:"Mensagem invalida ou incompleta."});     
+    if (!nome || !artista) {
+        return res.status(400).json({
+            erro: 'Campos obrigatórios: nome, artista'
+        });
     }
-});
 
-app.get("/musica/:id/play", async (req, res) =>{
-    
-    try{
-        play();//assíncrono, sem controle de sincronia
-        res.status(200).send({msg:`Musica ${musica.nome} está tocando!`});
-    }catch(error){
+    const musicaAtualizada = musicaDAO.atualizar(id, nome, artista);
 
+    if (!musicaAtualizada) {
+        return res.status(404).json({
+            erro: `Música com id ${id} não encontrada`
+        });
     }
+
+    res.status(200).json(musicaAtualizada);
 });
 
+// DELETE /api/musicas/:id
+// Remove uma música existente
+app.delete('/api/musicas/:id', (req, res) => {
+    const id = Number(req.params.id);
 
+    const musicaRemovida = musicaDAO.remover(id);
 
-// 5. Abrir a loja (escutar a porta)
+    if (!musicaRemovida) {
+        return res.status(404).json({
+            erro: `Música com id ${id} não encontrada`
+        });
+    }
+
+    res.status(200).json(musicaRemovida);
+});
+
+// Middleware de erro genérico
+app.use((err, req, res, next) => {
+    console.error('Erro detectado:', err.message);
+
+    res.status(500).json({
+        erro: 'Erro interno do servidor'
+    });
+});
+
+// Iniciar servidor
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });

@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3000
+
+### ============================================
+### TESTES DA API DO KARAOKÊ — MÚLTIPLAS MÚSICAS
+### ============================================
+
+### 1. GET - Listar todas as músicas
+GET {{baseUrl}}/api/musicas
+
+### 2. GET - Buscar música por ID existente
+GET {{baseUrl}}/api/musicas/1
+
+### 3. GET - Buscar música por ID inexistente
+GET {{baseUrl}}/api/musicas/999
+
+### 4. POST - Criar nova música
+POST {{baseUrl}}/api/musicas
+Content-Type: application/json
+
+{
+    "nome": "Smells Like Teen Spirit",
+    "artista": "Nirvana"
+}
+
+### 5. POST - Tentativa sem campos obrigatórios
+POST {{baseUrl}}/api/musicas
+Content-Type: application/json
+
+{
+    "nome": "Faltando artista"
+}
+
+### 6. PUT - Atualizar título e artista
+PUT {{baseUrl}}/api/musicas/1
+Content-Type: application/json
+
+{
+    "nome": "My Hero (Live)",
+    "artista": "Foo Fighters (Wembley 2008)"
+}
+
+### 7. PUT - Atualizar música inexistente
+PUT {{baseUrl}}/api/musicas/999
+Content-Type: application/json
+
+{
+    "nome": "Nao existe",
+    "artista": "Ninguem"
+}
+
+### 8. DELETE - Remover música
+DELETE {{baseUrl}}/api/musicas/2
+
+### 9. DELETE - Remover música inexistente
+DELETE {{baseUrl}}/api/musicas/999
+
+### 10. GET - Verificar estado final
+GET {{baseUrl}}/api/musicas

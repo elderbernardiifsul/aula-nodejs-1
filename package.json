@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Primeiro projeto com Node.js.",
   "license": "ISC",
-  "author": "Elder Bernardi",
+  "author": "Elder Bernardi - Heitor Costella",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index",
+    "start": "node app.js",
     "serve": "node app",
     "serve_debug": "nodemon app"
   },

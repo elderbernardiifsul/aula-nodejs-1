@@ -24,8 +24,20 @@ musica.addParte(
     new Parte(truthOrCon, 4000, 'verso2')
 );
 
-//segue adicionando as partes
-musica.addParte(new Parte( thereGoes, 5000, 'verso3') );
+// segue adicionando as partes
+musica.addParte(new Parte(thereGoes, 5000, 'refrao1'));
+
+musica.addParte(new Parte(watchHim, 3000, 'refrao2'));
+
+musica.addParte(new Parte(hesOrdinary, 3000, 'refrao3'));
+
+musica.addParte(new Parte(dontTheBest, 4000, 'verso4'));
+
+musica.addParte(new Parte(whileTheRest, 4000, 'verso5'));
+
+musica.addParte(new Parte(kudos, 4000, 'refrao4'));
+
+musica.addParte(new Parte(youKnow, 4000, 'refrao5'));
 
 async function play() {
     try {

@@ -16,7 +16,7 @@ const musicaDAO = require('./karaoke/DAO/MusicaDAO');
 
 // Inicialização da aplicação Express
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // ====================================================================
 // MIDDLEWARES DE PRÉ-PROCESSAMENTO
@@ -195,6 +195,6 @@ app.use((err, req, res, next) => {
 // ====================================================================
 // Inicialização do Servidor HTTP
 // ====================================================================
-app.listen(PORT, () => {
+app.listen(S, () => {
     console.log(`Servidor de Karaokê rodando em http://localhost:${PORT}`);
 });

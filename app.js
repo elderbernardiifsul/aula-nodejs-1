@@ -195,6 +195,6 @@ app.use((err, req, res, next) => {
 // ====================================================================
 // Inicialização do Servidor HTTP
 // ====================================================================
-app.listen(S, () => {
+app.listen(PORT, () => {
     console.log(`Servidor de Karaokê rodando em http://localhost:${PORT}`);
 });
